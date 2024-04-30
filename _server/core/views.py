@@ -37,7 +37,7 @@ from .models import Star
 from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
-def create_star(request):
+def toggle_star(request):
     if request.method == 'POST':
         # Parse the JSON data from the request body
         data = json.loads(request.body)
@@ -45,15 +45,27 @@ def create_star(request):
         chapter_num = data.get('chapterNum')
         book_num = data.get('bookNum')
 
-        # Create a new Star instance
-        star = Star.objects.create(
-            verseNum=verse_num,
-            chapterNum=chapter_num,
-            bookNum=book_num
-        )
+        # Check if a star already exists for the specified verse, chapter, and book
+        existing_star = Star.objects.filter( verseNum=verse_num, chapterNum=chapter_num, bookNum=book_num).first()
+
+        # Toggle the star
+        if existing_star:
+            # If the star exists, delete it
+            existing_star.delete()
+            message = 'Star removed successfully'
+            isNowStarred=False
+        else:
+            # If the star doesn't exist, create it
+            Star.objects.create(
+                verseNum=verse_num,
+                chapterNum=chapter_num,
+                bookNum=book_num
+            )
+            message = 'Star created successfully'
+            isNowStarred=True
 
         # Return a JSON response indicating success
-        return JsonResponse({'message': 'Star created successfully'})
+        return JsonResponse({'message': message, 'isNowStarred':isNowStarred})
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
     

@@ -28,10 +28,11 @@ export function ChapterPage({ book, chapter }) {
 
                 setVerses(lines.map((line, index) =>
                     <div key={index} className={`verse-container ${starred.some(item => item.verseNum === index) ? 'starred-verse' : ''}`}>
-                        <button onClick={() => star(index)} className={`fav-button ${starred.some(item => item.verseNum === index) ? 'filled' : ''}`}></button>
+                        <button onClick={() => toggleStar(index)} className={`fav-button ${starred.some(item => item.verseNum === index) ? 'filled' : ''}`}></button>
                         <p> {index + 1} {line}</p>
                     </div>
                 ));
+
             } catch (error) {
                 console.error('Error fetching verses:', error);
             }
@@ -40,38 +41,41 @@ export function ChapterPage({ book, chapter }) {
         fetchVerses();
     }, [book.urlName, chapter, language]);
 
-    const star = async (index) => {
+    const toggleStar = async (index) => {
         try {
             const data = { verseNum: index, chapterNum: chapter, bookNum: book.bookNum };
 
             // Make the HTTP POST request using fetch
-            const response = await fetch('/create_star/', {
+            const response = await fetch('/toggle_star/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(data)
             });
-            if (!response.ok) { throw new Error('Failed to create star'); }
+            if (!response.ok) { throw new Error('Failed to toggle star'); }
 
             // Parse the JSON response
             const responseData = await response.json();
-            console.log('Star created successfully:', responseData);
+            console.log('Star toggled successfully:', responseData);
+
+            const isNowStarred = responseData.isNowStarred;
 
             // Update the state
             setVerses(prevVerses => {
                 const newVerses = [...prevVerses];
                 newVerses[index] = (
-                    <div key={index} className={`verse-container starred-verse`}>
-                        <button onClick={() => star(index)} className={`fav-button filled`}></button>
+                    <div key={index} className={`verse-container ${isNowStarred ? 'starred-verse' : ''}`}>
+                        <button onClick={() => toggleStar(index)} className={`fav-button ${isNowStarred ? 'filled' : ''}`}></button>
                         <p>{newVerses[index].props.children[1].props.children}</p>
                     </div>
+
                 );
                 return newVerses;
             });
 
         } catch (error) {
-            console.error('Error creating star:', error);
+            console.error('Error toggling star:', error);
         }
     }
 
