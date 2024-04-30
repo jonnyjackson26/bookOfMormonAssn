@@ -1,22 +1,36 @@
 {% extends "registration/base.html"%}
+{% load static %}
+{% block title %}Sign In{% endblock %}
+
+{% block extrahead %}
+<link rel="stylesheet" href="{% static 'registration/sign_in.css' %}">
+<script src="{% static 'registration/rotating_text.js' %}"></script>
+{% endblock %}
 
 {% block content %}
-<form action="/registration/sign_in/" method="post">
-  {% csrf_token %}
-  <div>
-    <label>
-      Email
-      <input type="email" name="email">
-    </label>
-  </div>
-  <div>
-    <label>
-      Password
-      <input type="password" name="password">
-    </label>
-  </div>
-  <button>Sign In</button>
 
-</form>
-<a href="/registration/sign_up/">Create New Account</a>
-{% endblock %}
+<div class="outerDiv">
+
+  <h1 class="main-header">Study the word of God, in whatever language you'd like</h1>
+  <div class="rotating-text">
+    <h3 class="text">Read the Book of Mormon in English</h3>
+  </div>
+
+  <div class="container">
+    <h1>Sign In</h1>
+    <form action="/registration/sign_in/" method="post">
+      {% csrf_token %}
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email">
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password">
+
+      <button type="submit">Sign In</button>
+    </form>
+    <div class="create-account">
+      <a href="/registration/sign_up/">Don't have an account yet? Create one</a>
+    </div>
+  </div>
+
+  {% endblock %}
