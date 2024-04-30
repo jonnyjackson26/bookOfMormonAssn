@@ -1,0 +1,37 @@
+.verse-container {
+    display: flex;
+    align-items: center;
+}
+
+
+.fav-button {
+    background: none;
+    border: none;
+    font-size: 25px;
+    cursor: pointer;
+    padding: 0;
+    margin-right: 5px;
+    color: gold;
+}
+
+.fav-button::before {
+    content: "\2606";
+    /* Empty star */
+    color: gold;
+}
+
+.fav-button.filled::before {
+    /* Filled star style */
+    content: "\2605";
+}
+
+.verse-container p {
+    margin: 0;
+}
+
+.starred-verse p {
+    font-weight: bold;
+    color: black;
+    text-decoration: underline;
+    text-decoration-color: red;
+}

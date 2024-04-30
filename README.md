@@ -1,24 +1,44 @@
-# 2610 Django + Vite Starting Point
-This project serves as a starting point you to use as a starting point for Django applications that use Vite as the asset server for development. You are welcome to us this project for all of your assignments beginning with Module 5.
+# Book of Mormon Web Application
 
-## Strategy
-This application is a hybrid MPA and SPA. It reuses all of the login stuff that we did at the end of module 3 - there is a separate page for signup/signin. Once a user is logged in they are redirected to the / view which then renders the SPA application created using React and Vite.
+The purpose of this project is to make the text of the Book of Mormon more accesible for people all over the world. 
+This is a single page application built with react, which means its much faster than the Churchs Gospel Library Website
 
-## Creating a new application
-1. Clone the repo `git clone git@github.com:dittonjs/2610DjangoViteStarter.git <your-new-project-name>`. Replace `<your-new-project-name>` with the name you want give to your project.
-2. Open the pyproject.toml file and change the `name` property. You should use `-` to separate words in your name for this property.
-3. This project was set up using Python 3.11. You might have an older version installed. If you run into an error later that says that your activated Python version isn't compatible, the in the pyproject.toml file, just change the version there to match the version that you have installed. If you do this, you need to make sure that the lock file gets regenerated. You can do this by running `poetry lock --no-update` or by simply deleting the poetry.lock file (it will get regenerated when you run poetry install)/
+The ultimate goal of this project is that any annotations/markings/highlights made in one language will transfer over to all other languages, something that the church's website does not offer. I ran into this problem on my mission when I would markup my scriptures in english but then not have those markings in spanish.
 
-## Initial Setup
-1. Change the name property in the `pyproject.toml` file to be something unique to your project.
-1. In the root directory, install the python dependencies `poetry install`
-2. In the `client` directory, install the javascript dependencies `npm install`
-3. In the `_server` directory, create a new file called `.env`
-4. Copy the contents of `_server/.env.example` into the newly created `.env` file.
-5. Activate the poetry env `poetry shell`
-6. In the `_server` directory, run the migrations `python manage.py migrate`
+## Format of this project
 
-## Running the appliction
-1. In the `client` directory run `npm run dev`
-2. In the `_server` directory (with your poetry env activated) run `python manage.py runserver`
-3. Visit your application at `http://localhost:8000`
+The bom folder contains all the data pretty much.
+Inside is a folder for each language, named "bom-english" or "bom-spanish" etc. The language is in english, not the native language. (for example, its not "bom-espanol" or "bom-francais")
+Each of these folders have subfolders named after the english books in the BOM. And each of those folders have as many text files as chapters in that book. They are named the chapter number (1.txt or 22.txt, etc)
+In each of these files, each verse takes up one line.
+```
+bom 
+   bom-english
+       1-nephi
+           1.txt
+           2.txt
+           3.txt
+           ...
+        2-nephi
+           1.txt
+           2.txt
+           ...
+        ...
+    bom-spanish
+        1-nephi
+           1.txt
+           2.txt
+           3.txt
+           ...
+        2-nephi
+           1.txt
+           2.txt
+           ...
+        ...
+    bom-french
+    ...
+```
+
+## When adding a new language in the future:
+
+All you need to do is update the _languages.js file inside the languages folder
